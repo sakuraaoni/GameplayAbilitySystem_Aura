@@ -7,8 +7,11 @@
 #include "AuraPlayerController.generated.h"
 
 
-	
+class UInputAction;
 class UInputMappingContext;
+struct FInputActionValue;
+class IEnemyInterface;
+
 
 /**
  * 
@@ -24,10 +27,24 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupInputComponent() override;
 
 
 private:
 	UPROPERTY(EditAnywhere,Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
+	
+	UPROPERTY(EditAnywhere,Category="Input")
+	TObjectPtr<UInputAction> AuraInputAction;
+
+	TScriptInterface<IEnemyInterface> LastActor;
+	TScriptInterface<IEnemyInterface> ThisActor;
+
+	void Move(const struct FInputActionValue& InputActionValue);
+
+	void CursorTrace();
+	
 	
 };
